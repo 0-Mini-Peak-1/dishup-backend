@@ -9,11 +9,14 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    // This is required for TiDB Cloud
     rejectUnauthorized: true,
   },
   waitForConnections: true,
   connectionLimit: 10,
+  connectTimeout: 10000,           // 10s timeout for initial connect
+  enableKeepAlive: true,           // ✅ keep socket alive
+  keepAliveInitialDelay: 10000     // wait 10s before ping
+  //Let's see if it works or not
 });
 
 module.exports = pool;
